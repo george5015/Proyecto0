@@ -7,9 +7,11 @@ var path = require('path');
 var util = require('./lib/util.js');
 var router = express.Router();
 
+global.__basedir = __dirname;
 
-app.use(express.static(path.join(__dirname, 'public')));
-
+app.use('/static', express.static(path.join(__dirname, 'public')))
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.use(cookieParser());
 
 // initialize express-session to allow us track the logged-in user across sessions.
@@ -30,12 +32,14 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/', util.sessionChecker,(req, res) => {
-  res.sendFile(__dirname + '/views' + '/index.html')
-});
-
 app.use(require('./controllers'));
 
-app.listen(3000, function () {
-console.log('Example app listening on port 3000!');
+app.get('/', util.sessionChecker,(req, res) => {
+  res.sendFile(__dirname + '/views' + '/login.html')
+});
+
+
+
+app.listen(8080, function () {
+console.log('Example app listening on port 8080!');
 });

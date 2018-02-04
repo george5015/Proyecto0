@@ -1,11 +1,7 @@
 var express = require('express')
   , router = express.Router()
 
-router.use('/users', require('./users'))
-router.use('/events', require('./events'))
+router.use('/users', require('./users.js'))
+router.use('/events', require('./events.js'))
 
-router.get('/', function(req, res) {
-  res.sendFile(__dirname + './views' + '/index.html')
-})
-
-module.exports = router
+module.exports = router;

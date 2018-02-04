@@ -1,60 +1,45 @@
 var express = require('express')
   , router = express.Router()
 var util = require('../lib/util.js');
+var User = require('../models/user');
 
+router.post('/login',  util.sessionChecker,(req, res) => {
+  console.log("lo que llega", req.body)
+  var username = req.body.username,
+      password = req.body.password;
 
-router.get('/login', sessionChecker, (req, res) => {
-  res.sendFile(__dirname + '/public/signup.html');
+  User.findOne({ where: { username: username } }).then(function (user) {
+      if (!user) {
+          console.log("no encuentra usuario")
+      } else if (!user.validPassword(password)) {
+          console.log("password no valido")
+      } else {
+        console.log("llega donde es")
+          req.session.user = user.dataValues;
+          res.redirect('/dashboard');
+      }
+  });
 })
 
-router.post('/login', (req, res) => {
-
+router.get('/register', util.sessionChecker, (req, res) => {
+  console.log("llega")
+  res.sendFile(__basedir + '/views/register.html');
 })
 
-// Wild animals page
 router.post('/register', (req, res) => {
-
-})
-
-module.exports = router
-
-app.route('/signup')
-    .get(sessionChecker, (req, res) => {
-        res.sendFile(__dirname + '/public/signup.html');
-    })
-    .post((req, res) => {
-        User.create({
+  User.create({
+            name: req.body.name,
             username: req.body.username,
-            email: req.body.email,
             password: req.body.password
         })
         .then(user => {
+          console.log("llega al then")
             req.session.user = user.dataValues;
-            res.redirect('/dashboard');
+            res.sendStatus(200);
         })
         .catch(error => {
-            res.redirect('/signup');
+            console.log("error", error)
         });
-    });
+})
 
-
-// route for user Login
-app.route('/login')
-    .get(sessionChecker, (req, res) => {
-        res.sendFile(__dirname + '/public/login.html');
-    })
-    .post((req, res) => {
-        var username = req.body.username,
-            password = req.body.password;
-
-        User.findOne({ where: { username: username } }).then(function (user) {
-            if (!user) {
-                res.redirect('/login');
-            } else if (!user.validPassword(password)) {
-                res.redirect('/login');
-            } else {
-                req.session.user = user.dataValues;
-                res.redirect('/dashboard');
-            }
-        });
-    });
+module.exports = router

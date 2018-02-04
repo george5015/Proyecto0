@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Login events</title>
+    <title>Registro</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -16,22 +15,23 @@
     <!-- Custom styles for this template -->
     <link href="/static/css/signin.css" rel="stylesheet">
     <script type="text/javascript" src="/static/js/functions.js"></script>
-    
+
   </head>
 
   <body class="text-center">
     <div class = "container">
-      <form class="form-signin">
+      <form class="form-signin" id="form-register">
         <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">Ingresa tus datos</h1>
 
-        <label for="username" class="sr-only">Username</label>
-        <input type="text" id="username" class="form-control" placeholder="Username" required autofocus>
-        <label for="password" class="sr-only">Password</label>
+        <label for="inputPassword" class="sr-only">Nombre</label>
+        <input type="text" id="name" class="form-control" placeholder="Nombre" required autofocus>
+        <label for="inputUser" class="sr-only">Username</label>
+        <input type="text" id="username" class="form-control" placeholder="Username" required>
+        <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" id="password" class="form-control" placeholder="Password" required>
 
-        <button class="btn btn-lg btn-primary btn-block" onclick="loginUser()">Login</button>
-
-        <a href="/users/register">Es usted un nuevo usuario? registre aqui su cuenta</a>
+        <button class="btn btn-lg btn-primary btn-block" onclick="registerUser()">Registrarse</button>
 
       </form>
     </div>
