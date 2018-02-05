@@ -1,45 +1,40 @@
-var express = require('express')
-  , router = express.Router()
 var util = require('../lib/util.js');
-var User = require('../models/user');
 
-router.post('/login',  util.sessionChecker,(req, res) => {
-  console.log("lo que llega", req.body)
-  var username = req.body.username,
-      password = req.body.password;
+module.exports = (app, db) => {
 
-  User.findOne({ where: { username: username } }).then(function (user) {
+  app.post('/users/login',  util.sessionChecker,(req, res) => {
+    var username = req.body.username,
+    password = req.body.password;
+    console.log(req.body);
+    db.users.findOne({ where: { username: username } }).then(function (user) {
       if (!user) {
-          console.log("no encuentra usuario")
+        console.log("no encuentra usuario")
       } else if (!user.validPassword(password)) {
-          console.log("password no valido")
+        console.log("password no valido")
       } else {
-        console.log("llega donde es")
-          req.session.user = user.dataValues;
-          res.redirect('/dashboard');
+        req.session.user = user.dataValues.username;
+        req.session.userId = user.dataValues.id;
+        return res.redirect("/events");
       }
-  });
-})
+    });
+  })
 
-router.get('/register', util.sessionChecker, (req, res) => {
-  console.log("llega")
-  res.sendFile(__basedir + '/views/register.html');
-})
+  app.get('/users/register', util.sessionChecker, (req, res) => {
+    res.render('register');
+  })
 
-router.post('/register', (req, res) => {
-  User.create({
-            name: req.body.name,
-            username: req.body.username,
-            password: req.body.password
-        })
-        .then(user => {
-          console.log("llega al then")
-            req.session.user = user.dataValues;
-            res.sendStatus(200);
-        })
-        .catch(error => {
-            console.log("error", error)
-        });
-})
-
-module.exports = router
+  app.post('/users/register', (req, res) => {
+    db.users.create({
+      name: req.body.name,
+      username: req.body.username,
+      password: req.body.password
+    })
+    .then(user => {
+      req.session.user = user.dataValues.username;
+      res.sendStatus(200);
+    })
+    .catch(error => {
+      console.log("error", error)
+    });
+  })
+}

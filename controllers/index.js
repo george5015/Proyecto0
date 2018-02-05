@@ -1,7 +1,10 @@
-var express = require('express')
-  , router = express.Router()
+const routes = [
+  require('./events'),
+  require('./users')
+];
 
-router.use('/users', require('./users.js'))
-router.use('/events', require('./events.js'))
-
-module.exports = router;
+module.exports = function router(app, db) {
+  return routes.forEach((route) => {
+    route(app, db);
+  });
+};

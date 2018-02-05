@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <% include ./partials/head %>
+  <body class="text-center">
+  <% include ./partials/header %>
+  <main role="main" class="container">
+
+    <h1>Tus Eventos</h1>
+
+    <div>
+      <button class="btn btn-primary button-create-event" data-toggle="modal" data-target="#modal_create_event">
+        Crear Evento
+      </button>
+    </div>
+    <table class="table table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Categoria</th>
+          <th scope="col">Lugar</th>
+          <th scope="col">Direccion</th>
+          <th scope="col">Fecha de Inicio</th>
+          <th scope="col">Fecha Fin</th>
+          <th scope="col">Eliminar</th>
+          <th scope="col">Editar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% events.forEach((event) => { %>
+        <tr>
+          <th scope="row"><%= event.dataValues.name %></th>
+          <td><%= event.dataValues.category %></td>
+          <td><%= event.dataValues.place %></td>
+          <td><%= event.dataValues.address %></td>
+          <td><%= event.dataValues.event_starts %></td>
+          <td><%= event.dataValues.event_ends %></td>
+          <td>
+            <button type="button" class="btn btn-default" onclick="deleteEvent('<%=event.dataValues.id%>')" aria-label="Left Align">
+              <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
+            </button>
+          </td>
+        </tr>
+        <% })%>
+      </tbody>
+    </table>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <% include ./partials/footer %>
+    <% include ./partials/create_event %>
+  </body>
+</html>
