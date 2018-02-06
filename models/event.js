@@ -21,8 +21,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       required: true
     },
-    event_starts:  DataTypes.DATE,
-    event_ends: DataTypes.DATE
+    event_starts:  DataTypes.DATEONLY,
+    event_ends: DataTypes.DATEONLY
   });
 
   return Event;

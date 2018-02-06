@@ -8,9 +8,9 @@ module.exports = (app, db) => {
     console.log(req.body);
     db.users.findOne({ where: { username: username } }).then(function (user) {
       if (!user) {
-        console.log("no encuentra usuario")
+        res.redirect('/');
       } else if (!user.validPassword(password)) {
-        console.log("password no valido")
+        res.redirect('/');
       } else {
         req.session.user = user.dataValues.username;
         req.session.userId = user.dataValues.id;
@@ -31,10 +31,17 @@ module.exports = (app, db) => {
     })
     .then(user => {
       req.session.user = user.dataValues.username;
-      res.sendStatus(200);
+      res.redirect('/login');
     })
     .catch(error => {
       console.log("error", error)
     });
   })
+
+  app.get('/logout', (req, res) => {
+    if (req.session.user && req.cookies.user_sid) {
+        res.clearCookie('user_sid');
+        res.redirect('/');
+    }
+});
 }

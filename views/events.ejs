@@ -21,8 +21,8 @@
           <th scope="col">Direccion</th>
           <th scope="col">Fecha de Inicio</th>
           <th scope="col">Fecha Fin</th>
-          <th scope="col">Eliminar</th>
-          <th scope="col">Editar</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -36,8 +36,15 @@
           <td><%= event.dataValues.event_ends %></td>
           <td>
             <button type="button" class="btn btn-default" onclick="deleteEvent('<%=event.dataValues.id%>')" aria-label="Left Align">
-              <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
+              Borrar
             </button>
+          </td>
+          <td>
+            <form name="updateEventForm" action="/events/update/<%=event.dataValues.id%>" method="post">
+              <button name="submitUpdate" class="btn btn-default" type="submit" aria-label="Left Align">
+                Editar
+              </button>
+            </form>
           </td>
         </tr>
         <% })%>
