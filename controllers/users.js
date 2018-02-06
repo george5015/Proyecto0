@@ -31,7 +31,7 @@ module.exports = (app, db) => {
     })
     .then(user => {
       req.session.user = user.dataValues.username;
-      res.redirect('/users/login');
+      res.redirect('back');
     })
     .catch(error => {
       console.log("error", error)
